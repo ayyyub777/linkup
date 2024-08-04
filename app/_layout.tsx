@@ -15,6 +15,7 @@ import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import { PaperProvider } from "react-native-paper";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDfMx8V43Y5jHQPHEAlzJIbOxQj5_9dBG0",
@@ -38,7 +39,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
+  initialRouteName: "(app)/(tabs)",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -72,11 +73,31 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
-    </ThemeProvider>
+    <PaperProvider>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="(app)/(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(app)/chat" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+          <Stack.Screen name="landing" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="login"
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: "Sign In",
+              presentation: "modal",
+            }}
+          />
+          <Stack.Screen
+            name="register"
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: "Create Account",
+              presentation: "modal",
+            }}
+          />
+        </Stack>
+      </ThemeProvider>
+    </PaperProvider>
   );
 }
